@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+```tsx
+import { useState } from 'react';
+import { motion } from 'motion/react';
+
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -18,6 +21,7 @@ import { QuoteSummary, GalleryItem } from './types';
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [activeQuote, setActiveQuote] = useState<QuoteSummary | null>(null);
+
   const [transferredConfig, setTransferredConfig] = useState<{
     bottleSize?: string;
     capColor?: string;
@@ -30,16 +34,23 @@ export default function App() {
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
+
     if (sectionId === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
       return;
     }
 
     const element = document.getElementById(sectionId);
+
     if (element) {
       const navOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - navOffset;
+
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth',
@@ -65,6 +76,7 @@ export default function App() {
       ...prev,
       eventName: `${serviceTitle} Requirement`,
     }));
+
     scrollToSection('book-order');
   };
 
@@ -75,73 +87,147 @@ export default function App() {
       capColor: item.capColor,
       eventName: item.title,
     }));
+
     scrollToSection('customizer');
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-cyan-500 selection:text-white">
-      {/* Top Sticky Navigation */}
+      
       <Navbar
         onNavigate={scrollToSection}
         activeSection={activeSection}
         onOpenBooking={() => scrollToSection('book-order')}
       />
 
-      {/* Main Content Sections */}
       <main className="flex-1">
-        {/* 1. Hero Page */}
-        <Hero
-          onBookNow={() => scrollToSection('book-order')}
-          onExploreCustomizer={() => scrollToSection('customizer')}
-          onExploreServices={() => scrollToSection('services')}
-        />
 
-        {/* 2. About Us */}
-        <AboutSection />
+        {/* Hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          <Hero
+            onBookNow={() => scrollToSection('book-order')}
+            onExploreCustomizer={() => scrollToSection('customizer')}
+            onExploreServices={() => scrollToSection('services')}
+          />
+        </motion.div>
 
-        {/* 3. Our Services (9 Main Services) */}
-        <ServicesSection
-          onSelectService={handleServiceSelect}
-          onBookNow={() => scrollToSection('book-order')}
-        />
+        {/* About */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <AboutSection />
+        </motion.div>
 
-        {/* 4. Customized Bottles (Interactive 3D Studio) */}
-        <InteractiveBottleStudio
-          onSelectConfiguration={handleStudioConfigSelect}
-        />
+        {/* Services */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <ServicesSection
+            onSelectService={handleServiceSelect}
+            onBookNow={() => scrollToSection('book-order')}
+          />
+        </motion.div>
 
-        {/* 5. How It Works (4 Steps) */}
-        <HowItWorks onStartOrder={() => scrollToSection('book-order')} />
+        {/* Customized Bottles */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8 }}
+        >
+          <InteractiveBottleStudio
+            onSelectConfiguration={handleStudioConfigSelect}
+          />
+        </motion.div>
 
-        {/* 6. Gallery Portfolio */}
-        <GallerySection onSelectDesignTemplate={handleGallerySelect} />
+        {/* How It Works */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <HowItWorks
+            onStartOrder={() => scrollToSection('book-order')}
+          />
+        </motion.div>
 
-        {/* 7. Why Choose BROS WATER */}
-        <WhyChooseSection />
+        {/* Gallery */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <GallerySection
+            onSelectDesignTemplate={handleGallerySelect}
+          />
+        </motion.div>
 
-        {/* 8. Online Booking Form / Request a Quote */}
-        <BookingFormSection
-          initialConfig={transferredConfig}
-          onQuoteGenerated={(quote) => setActiveQuote(quote)}
-        />
+        {/* Why Choose Us */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <WhyChooseSection />
+        </motion.div>
 
-        {/* 9. FAQ */}
-        <FaqSection />
+        {/* Booking */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <BookingFormSection
+            initialConfig={transferredConfig}
+            onQuoteGenerated={(quote) => setActiveQuote(quote)}
+          />
+        </motion.div>
 
-        {/* 10. Contact Us Section */}
-        <ContactSection />
+        {/* FAQ */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <FaqSection />
+        </motion.div>
+
+        {/* Contact */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7 }}
+        >
+          <ContactSection />
+        </motion.div>
+
       </main>
 
-      {/* Footer */}
       <Footer
         onNavigate={scrollToSection}
         onOpenBooking={() => scrollToSection('book-order')}
       />
 
-      {/* Floating Call & WhatsApp Buttons */}
-      <FloatingActions onQuickBook={() => scrollToSection('book-order')} />
+      <FloatingActions
+        onQuickBook={() => scrollToSection('book-order')}
+      />
 
-      {/* Interactive Quote Confirmation Modal */}
       {activeQuote && (
         <QuoteModal
           quote={activeQuote}
@@ -151,3 +237,4 @@ export default function App() {
     </div>
   );
 }
+```
