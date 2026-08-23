@@ -1,4 +1,3 @@
-```tsx
 import { useState } from 'react';
 import { motion } from 'motion/react';
 
@@ -17,6 +16,13 @@ import { Footer } from './components/Footer';
 import { FloatingActions } from './components/FloatingActions';
 import { QuoteModal } from './components/QuoteModal';
 import { QuoteSummary, GalleryItem } from './types';
+
+const sectionAnimation = {
+  initial: { opacity: 0, y: 35 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.12 },
+  transition: { duration: 0.7, ease: 'easeOut' as const },
+};
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -93,7 +99,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] selection:bg-cyan-500 selection:text-white">
-      
       <Navbar
         onNavigate={scrollToSection}
         activeSection={activeSection}
@@ -102,9 +107,9 @@ export default function App() {
 
       <main className="flex-1">
 
-        {/* Hero */}
+        {/* Hero Animation */}
         <motion.div
-          initial={{ opacity: 0, y: 35 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
@@ -116,34 +121,24 @@ export default function App() {
         </motion.div>
 
         {/* About */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <AboutSection />
         </motion.div>
 
         {/* Services */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <ServicesSection
             onSelectService={handleServiceSelect}
             onBookNow={() => scrollToSection('book-order')}
           />
         </motion.div>
 
-        {/* Customized Bottles */}
+        {/* Customizer */}
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <InteractiveBottleStudio
             onSelectConfiguration={handleStudioConfigSelect}
@@ -151,46 +146,26 @@ export default function App() {
         </motion.div>
 
         {/* How It Works */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <HowItWorks
             onStartOrder={() => scrollToSection('book-order')}
           />
         </motion.div>
 
         {/* Gallery */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <GallerySection
             onSelectDesignTemplate={handleGallerySelect}
           />
         </motion.div>
 
         {/* Why Choose Us */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <WhyChooseSection />
         </motion.div>
 
         {/* Booking */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <BookingFormSection
             initialConfig={transferredConfig}
             onQuoteGenerated={(quote) => setActiveQuote(quote)}
@@ -198,22 +173,12 @@ export default function App() {
         </motion.div>
 
         {/* FAQ */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <FaqSection />
         </motion.div>
 
         {/* Contact */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div {...sectionAnimation}>
           <ContactSection />
         </motion.div>
 
@@ -237,4 +202,3 @@ export default function App() {
     </div>
   );
 }
-```
